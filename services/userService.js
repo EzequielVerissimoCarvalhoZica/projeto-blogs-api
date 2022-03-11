@@ -1,12 +1,10 @@
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const verifyUser = require('../helpers/verifyUser');
+const tokenGenerate = require('../helpers/tokenGenerate');
 
 const create = async ({ displayName, email, password, image }) => {
-  const SECRET = process.env.JWT_SECRET;
-  const jwtConfig = { expiresIn: '1d' };
-
   const resultVerify = verifyUser(displayName, email, password);
+
   if (resultVerify.err) return resultVerify;
 
   const user = await User.findOne({ where: { email } });
@@ -15,7 +13,7 @@ const create = async ({ displayName, email, password, image }) => {
 
   await User.create({ displayName, email, password, image });
 
-  return jwt.sign({ data: { displayName, email } }, SECRET, jwtConfig);
+  return tokenGenerate(displayName, email);
 };
 
 const findAll = () => {};
