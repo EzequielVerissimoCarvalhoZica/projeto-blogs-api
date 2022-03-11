@@ -6,8 +6,8 @@ const create = async ({ displayName, email, password, image }) => {
   const SECRET = process.env.JWT_SECRET;
   const jwtConfig = { expiresIn: '1d' };
 
-  const resultUser = verifyUser.verifyUser(displayName, email, password);
-  if (resultUser.err) return resultUser;
+  const resultVerify = verifyUser(displayName, email, password);
+  if (resultVerify.err) return resultVerify;
 
   const user = await User.findOne({ where: { email } });
 
