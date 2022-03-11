@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('./auth');
 const categorieController = require('../controllers/categorieController');
 
 const router = express.Router();
@@ -6,6 +7,6 @@ const router = express.Router();
 router
 .route('/')
 .get(categorieController.findAll)
-.post(categorieController.create);
+.post(auth, categorieController.create);
 
 module.exports = router;
