@@ -1,3 +1,4 @@
+const { User } = require('../models');
 const userService = require('../services/userService');
 
 const create = async (req, res) => {
@@ -11,7 +12,11 @@ const create = async (req, res) => {
   return res.status(201).json({ token: response });
 };
 
-const findAll = (_req, _res) => {};
+const findAll = async (_req, res) => {
+  const users = await User.findAll();
+
+  res.status(200).json(users);
+};
 
 const findById = (_req, _res) => {};
 
