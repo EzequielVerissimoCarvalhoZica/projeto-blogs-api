@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
 .route('/')
-.get(categorieController.findAll)
+.get(auth, categorieController.findAll)
 .post(auth, categorieController.create);
 
 module.exports = router;
