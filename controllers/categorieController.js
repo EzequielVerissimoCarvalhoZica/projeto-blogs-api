@@ -6,7 +6,7 @@ const create = async (req, res) => {
   const created = await categorieService.create({ name });
 
   if (created.err) return res.status(created.code).json({ message: created.err });
-  console.log(created);
+
   return res.status(201).json(created);
 };
 
