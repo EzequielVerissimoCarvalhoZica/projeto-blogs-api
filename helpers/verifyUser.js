@@ -32,8 +32,16 @@ const verifyName = (displayName) => {
   return {};
 };
 
-module.exports = {
-  verifyEmail,
-  verifyPass,
-  verifyName,
+const verifyUser = (displayName, email, password) => {
+  const resultName = verifyName(displayName);
+  if (resultName.err) return resultName;
+
+  const resultEmail = verifyEmail(email);
+  if (resultEmail.err) return resultEmail;
+
+  const resultPass = verifyPass(password);
+  if (resultPass.err) return resultPass;
+
+  return {};
 };
+module.exports = verifyUser;

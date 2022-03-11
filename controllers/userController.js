@@ -2,7 +2,7 @@ const userService = require('../services/userService');
 
 const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
-  console.log('uai');
+
   const response = await userService
   .create({ displayName, email, password, image });
 
