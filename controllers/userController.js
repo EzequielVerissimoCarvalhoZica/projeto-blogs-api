@@ -18,7 +18,15 @@ const findAll = async (_req, res) => {
   res.status(200).json(users);
 };
 
-const findById = (_req, _res) => {};
+const findById = async (req, res) => {
+  const { id } = req.params;
+
+  const user = await userService.findById({ id });
+
+  if (user.err) return res.status(user.code).json({ message: user.err });
+  
+  return res.status(200).json(user);
+};
 
 const update = (_req, _res) => {};
 

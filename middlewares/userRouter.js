@@ -11,7 +11,7 @@ router
 
 router
 .route('/:id')
-.get(userController.findById)
+.get(auth, userController.findById)
 .put(userController.update);
 
 module.exports = router;

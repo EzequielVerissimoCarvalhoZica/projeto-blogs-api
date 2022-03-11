@@ -18,7 +18,13 @@ const create = async ({ displayName, email, password, image }) => {
 
 const findAll = () => {};
 
-const findById = () => {};
+const findById = async ({ id }) => {
+  const user = await User.findByPk(id);
+
+  if (!user) return { err: 'User does not exist', code: 404 };
+
+  return user;
+};
 
 const update = () => {};
 
