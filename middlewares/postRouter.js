@@ -1,14 +1,15 @@
 const express = require('express');
+const postController = require('../controllers/postController');
 
 const router = express.Router();
 
 router
 .route('/')
-.get()
-.post();
+.get(postController.findAll)
+.post(postController.create);
 
 router
 .route('/:id')
-.get();
+.get(postController.findById);
 
 module.exports = router;
