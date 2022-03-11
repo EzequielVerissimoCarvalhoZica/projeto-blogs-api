@@ -44,4 +44,8 @@ const verifyUser = (displayName, email, password) => {
 
   return {};
 };
-module.exports = verifyUser;
+module.exports = {
+  verifyUser,
+  verifyEmail,
+  verifyPass,
+};
