@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   const { authorization } = req.headers;
   const SECRET = process.env.JWT_SECRET;
 
@@ -8,8 +9,9 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(authorization, SECRET);
+    const user = await User.findOne({ where: { email: decoded.data.email } });
 
-    req.user = decoded;
+    req.user = user;
 
     return next();
   } catch (error) {
