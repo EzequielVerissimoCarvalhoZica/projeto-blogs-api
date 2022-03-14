@@ -53,10 +53,21 @@ const destroy = async (req, res) => {
   return res.status(code).end();
 };
 
+const findByQuery = async (req, res) => {
+  const { q } = req.query;
+
+  const { code, err, posts } = await postService.findByQuery(q);
+
+  if (err) return res.status(code).json({ message: err });
+
+  return res.status(code).json(posts);
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
   destroy,
+  findByQuery,
 };

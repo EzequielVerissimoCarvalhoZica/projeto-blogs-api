@@ -86,10 +86,24 @@ const destroy = async (user, id) => {
   return { code: 204 };
 };
 
+const findByQuery = async (query) => {
+  const posts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  const postsfiltered = posts.filter((p) => p.title.includes(query) || p.content.includes(query));
+
+  return { posts: postsfiltered, code: 200 };
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
   destroy,
+  findByQuery,
 };

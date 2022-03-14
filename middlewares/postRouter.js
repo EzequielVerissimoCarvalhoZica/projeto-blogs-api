@@ -10,6 +10,10 @@ router
 .post(auth, postController.create);
 
 router
+.route('/search')
+.get(auth, postController.findByQuery);
+
+router
 .route('/:id')
 .get(auth, postController.findById)
 .put(auth, postController.update)
