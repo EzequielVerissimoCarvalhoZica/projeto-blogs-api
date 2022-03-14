@@ -30,9 +30,18 @@ const findById = async (req, res) => {
 
 const update = (_req, _res) => {};
 
+const destroy = async (req, res) => {
+  const { user } = req;
+
+  await userService.destroy(user);
+
+  return res.status(204).end();
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
+  destroy,
 };

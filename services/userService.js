@@ -28,9 +28,16 @@ const findById = async ({ id }) => {
 
 const update = () => {};
 
+const destroy = async (user) => {
+  await User.destroy({
+    where: { id: user.id },
+  });
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   update,
+  destroy,
 };

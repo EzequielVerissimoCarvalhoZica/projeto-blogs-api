@@ -10,6 +10,10 @@ router
 .post(userController.create);
 
 router
+.route('/me')
+.delete(auth, userController.destroy);
+
+router
 .route('/:id')
 .get(auth, userController.findById)
 .put(userController.update);
