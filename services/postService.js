@@ -1,4 +1,4 @@
-const { BlogPost, Categorie, PostCategorie } = require('../models');
+const { BlogPost, Categorie, PostCategorie, User } = require('../models');
 const verifyPost = require('../helpers/verifyPost');
 
 const create = async ({ user, title, content, categoryIds }) => {
@@ -23,7 +23,18 @@ const create = async ({ user, title, content, categoryIds }) => {
   return postCreated;
 };
 
-const findAll = () => {};
+const findAll = async () => {
+  const posts = await BlogPost.findAll({
+    attributes: { exclude: ['userId'] },
+    include: [
+      
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return posts;
+};
 
 const findById = () => {};
 

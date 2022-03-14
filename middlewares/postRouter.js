@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
 .route('/')
-.get(postController.findAll)
+.get(auth, postController.findAll)
 .post(auth, postController.create);
 
 router

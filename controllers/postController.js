@@ -10,7 +10,13 @@ const create = async (req, res) => {
   return res.status(201).json(response);
 };
 
-const findAll = (_req, _res) => {};
+const findAll = async (req, res) => {
+  const { user } = req;
+
+  const posts = await postService.findAll(user);
+
+  return res.status(200).json(posts);
+};
 
 const findById = (_req, _res) => {};
 
