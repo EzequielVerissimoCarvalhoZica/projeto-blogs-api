@@ -27,7 +27,6 @@ const findAll = async () => {
   const posts = await BlogPost.findAll({
     attributes: { exclude: ['userId'] },
     include: [
-      
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Categorie, as: 'categories', through: { attributes: [] } },
     ],
