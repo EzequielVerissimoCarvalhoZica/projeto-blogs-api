@@ -32,7 +32,7 @@ const update = async (req, res) => {
   const { id } = req.params;
   const { title, content, categoryIds } = req.body;
   const { user } = req;
-  console.log(user, user.id, id);
+
   if (categoryIds) return res.status(400).json({ message: 'Categories cannot be edited' });
 
   const { code, err, updated } = await postService.update(user, id, title, content);
