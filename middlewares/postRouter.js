@@ -11,6 +11,7 @@ router
 
 router
 .route('/:id')
-.get(auth, postController.findById);
+.get(auth, postController.findById)
+.put(auth, postController.update);
 
 module.exports = router;

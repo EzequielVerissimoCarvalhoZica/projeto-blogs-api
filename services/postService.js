@@ -49,8 +49,32 @@ const findById = async (id) => {
   return { post, code: 200 };
 };
 
+const update = async (user, id, title, content) => {
+  if (!title) return { err: '"title" is required', code: 400 };
+  if (!content) return { err: '"content" is required', code: 400 };
+
+  const find = await BlogPost.findOne({
+    where: { userId: user.id, id },
+    include: { model: Categorie, as: 'categories', through: { attributes: [] } },
+  });
+
+  if (!find) return { err: 'Unauthorized user', code: 401 };
+
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const updated = {
+    title,
+    content,
+    userId: user.id,
+    categories: find.categories,
+  };
+
+  return { updated, code: 200 };
+};
+
 module.exports = {
   create,
   findAll,
   findById,
+  update,
 };
