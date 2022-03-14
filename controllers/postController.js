@@ -18,7 +18,15 @@ const findAll = async (req, res) => {
   return res.status(200).json(posts);
 };
 
-const findById = (_req, _res) => {};
+const findById = async (req, res) => {
+  const { id } = req.params;
+
+  const { code, err, post } = await postService.findById(id);
+
+  if (err) return res.status(code).json({ message: err });
+
+  return res.status(code).json(post);
+};
 
 module.exports = {
   create,
