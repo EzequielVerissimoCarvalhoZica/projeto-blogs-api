@@ -1,26 +1,36 @@
+const Sequelize = require('sequelize');
+const config = require('../config/config');
 const { BlogPost, Categorie, PostCategorie, User } = require('../models');
+const verifyAllCategoriesExist = require('../helpers/verifyAllCategoriesExist');
 const verifyPost = require('../helpers/verifyPost');
+
+const sequelize = new Sequelize(config.development);
 
 const create = async ({ user, title, content, categoryIds }) => {
   const resultVerify = verifyPost(title, content, categoryIds);
   if (resultVerify.err) return resultVerify;
 
-  const categories = await Categorie.findAll();
-  const ids = categories.map(({ id }) => id);
-  const allCategoriesExist = categoryIds.every((c) => ids.includes(c));
+  const resultVerifyCategories = await verifyAllCategoriesExist(categoryIds);
+  if (resultVerifyCategories.err) return resultVerifyCategories;
 
-  if (!allCategoriesExist) return { err: '"categoryIds" not found', code: 400 };
+  const t = await sequelize.transaction();
+  try {
+    const postCreated = await BlogPost
+    .create({ userId: user.id, title, content }, { transaction: t });
 
-  const postCreated = await BlogPost
-  .create({ userId: user.id, title, content });
+    const postCategoriesCreated = categoryIds
+    .map((c) => PostCategorie
+    .create({ postId: postCreated.id, categoryId: c }, { transaction: t }));
 
-  const postCategoriesCreated = categoryIds
-  .map((c) => PostCategorie
-  .create({ postId: postCreated.id, categoryId: c }));
+    await Promise.all(postCategoriesCreated);
+    await t.commit();
 
-  await Promise.all(postCategoriesCreated);
+    return postCreated;
+  } catch (error) {
+    await t.rollback();
 
-  return postCreated;
+    return { err: 'sorry, something went wrong', code: 500 };
+  }
 };
 
 const findAll = async () => {
