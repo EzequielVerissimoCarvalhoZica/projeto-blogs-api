@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const config = require('../config/config');
+const config = require('../sequelize/config');
 const { BlogPost, Categorie, PostCategorie, User } = require('../models');
 const verifyAllCategoriesExist = require('../helpers/verifyAllCategoriesExist');
 const verifyPost = require('../helpers/verifyPost');

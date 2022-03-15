@@ -4,12 +4,12 @@ const userService = require('../services/userService');
 const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
-  const response = await userService
+  const { err, code, token } = await userService
   .create({ displayName, email, password, image });
 
-  if (response.err) return res.status(response.code).json({ message: response.err });
+  if (err) return res.status(code).json({ message: err });
 
-  return res.status(201).json({ token: response });
+  return res.status(code).json({ token });
 };
 
 const findAll = async (_req, res) => {
@@ -21,27 +21,24 @@ const findAll = async (_req, res) => {
 const findById = async (req, res) => {
   const { id } = req.params;
 
-  const user = await userService.findById({ id });
+  const { user, err, code } = await userService.findById({ id });
 
-  if (user.err) return res.status(user.code).json({ message: user.err });
+  if (err) return res.status(code).json({ message: err });
   
-  return res.status(200).json(user);
+  return res.status(code).json(user);
 };
-
-const update = (_req, _res) => {};
 
 const destroy = async (req, res) => {
   const { user } = req;
 
-  await userService.destroy(user);
+  const { code } = await userService.destroy(user);
 
-  return res.status(204).end();
+  return res.status(code).end();
 };
 
 module.exports = {
   create,
   findAll,
   findById,
-  update,
   destroy,
 };

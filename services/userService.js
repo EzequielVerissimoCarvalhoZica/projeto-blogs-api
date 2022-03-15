@@ -13,31 +13,28 @@ const create = async ({ displayName, email, password, image }) => {
 
   await User.create({ displayName, email, password, image });
 
-  return tokenGenerate(displayName, email);
+  const token = tokenGenerate(displayName, email);
+  return { token, code: 201 };
 };
-
-const findAll = () => {};
 
 const findById = async ({ id }) => {
   const user = await User.findByPk(id);
 
   if (!user) return { err: 'User does not exist', code: 404 };
 
-  return user;
+  return { user, code: 200 };
 };
-
-const update = () => {};
 
 const destroy = async (user) => {
   await User.destroy({
     where: { id: user.id },
   });
+
+  return { code: 204 };
 };
 
 module.exports = {
   create,
-  findAll,
   findById,
-  update,
   destroy,
 };
