@@ -5,12 +5,9 @@ const create = async ({ name }) => {
 
   const created = await Categorie.create({ name });
 
-  return created;
+  return { created, code: 201 };
 };
-
-const findAll = () => {};
 
 module.exports = {
   create,
-  findAll,
 };

@@ -4,11 +4,11 @@ const categorieService = require('../services/categorieService');
 const create = async (req, res) => {
   const { name } = req.body;
 
-  const created = await categorieService.create({ name });
+  const { created, code, err } = await categorieService.create({ name });
 
-  if (created.err) return res.status(created.code).json({ message: created.err });
+  if (err) return res.status(code).json({ message: err });
 
-  return res.status(201).json(created);
+  return res.status(code).json(created);
 };
 
 const findAll = async (_req, res) => {

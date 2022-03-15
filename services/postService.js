@@ -25,7 +25,7 @@ const create = async ({ user, title, content, categoryIds }) => {
     await Promise.all(postCategoriesCreated);
     await t.commit();
 
-    return postCreated;
+    return { postCreated, code: 201 };
   } catch (error) {
     await t.rollback();
 
@@ -42,7 +42,7 @@ const findAll = async () => {
     ],
   });
 
-  return posts;
+  return { posts, code: 200 };
 };
 
 const findById = async (id) => {

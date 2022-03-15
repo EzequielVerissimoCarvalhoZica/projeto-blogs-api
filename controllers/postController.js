@@ -4,18 +4,20 @@ const create = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const { user } = req;
 
-  const response = await postService.create({ user, title, content, categoryIds });
-  if (response.err) return res.status(response.code).json({ message: response.err });
+  const { postCreated, code, err } = await postService
+  .create({ user, title, content, categoryIds });
 
-  return res.status(201).json(response);
+  if (err) return res.status(code).json({ message: err });
+
+  return res.status(code).json(postCreated);
 };
 
 const findAll = async (req, res) => {
   const { user } = req;
 
-  const posts = await postService.findAll(user);
+  const { posts, code } = await postService.findAll(user);
 
-  return res.status(200).json(posts);
+  return res.status(code).json(posts);
 };
 
 const findById = async (req, res) => {

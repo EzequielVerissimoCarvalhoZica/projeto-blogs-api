@@ -3,10 +3,10 @@ const loginService = require('../services/loginService');
 const create = async (req, res) => {
   const { email, password } = req.body;
 
-  const response = await loginService.create({ email, password });
-  if (response.err) return res.status(response.code).json({ message: response.err });
+  const { err, code, token } = await loginService.create({ email, password });
+  if (err) return res.status(code).json({ message: err });
 
-  return res.status(200).json({ token: response });
+  return res.status(code).json({ token });
 };
 
 module.exports = {

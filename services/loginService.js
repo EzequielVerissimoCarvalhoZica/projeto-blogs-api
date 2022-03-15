@@ -11,7 +11,9 @@ const create = async ({ email, password }) => {
 
   if (!user || user.password !== password) return { err: 'Invalid fields', code: 400 };
 
-  return tokenGenerate(user.displayName, email);
+  const token = tokenGenerate(user.displayName, email);
+
+  return { token, code: 200 };
 };
 
 module.exports = {
